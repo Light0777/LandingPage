@@ -54,22 +54,22 @@ export default function Navbar() {
         <>
             {/* NAVBAR */}
             <nav className="w-full flex justify-center fixed bottom-10 z-50">
-                <div className="w-fit bg-neutral-800/90 rounded-2xl px-2 py-1 flex items-center gap-2 relative">
+                <div className="w-fit bg-neutral-800/90 rounded-2xl px-2 py-2 flex items-center gap-2 relative">
 
                     {/* Logo */}
-                    <div className="w-15 h-15 bg-black rounded-lg"></div>
+                    <div className="w-15 h-15 bg-black rounded-lg flex justify-center items-center text-5xl text-white">L.</div>
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center gap-2">
-                        <button className="bg-neutral-500 h-15 w-32 rounded-lg"></button>
-                        <button className="bg-neutral-500 h-15 w-32 rounded-lg"></button>
-                        <button className="bg-neutral-500 h-15 w-32 rounded-lg"></button>
-                        <button className="bg-neutral-500 h-15 w-32 rounded-lg"></button>
+                        <button className="bg-neutral-500 h-15 w-32 rounded-lg text-xl text-white font-thin">Home</button>
+                        <button className="bg-neutral-500 h-15 w-32 rounded-lg text-xl text-white font-thin">About</button>
+                        <button className="bg-neutral-500 h-15 w-32 rounded-lg text-xl text-white font-thin">Projects</button>
+                        <button className="bg-neutral-500 h-15 w-32 rounded-lg text-xl text-white font-thin">Contact</button>
                     </div>
 
                     {/* CTA */}
                     <div>
-                        <button className="bg-lime-400 h-15 w-32 rounded-lg relative top-1"></button>
+                        <button className="bg-lime-400 h-15 w-32 rounded-lg relative">Contact us.</button>
                     </div>
 
                     {/* MOBILE BUTTON */}
