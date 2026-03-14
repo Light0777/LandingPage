@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { gsap } from "gsap"
-import { Mail, SendHorizontal } from "lucide-react"
+import { SendHorizontal } from "lucide-react"
 
 export default function Navbar() {
     const [open, setOpen] = useState(false)
@@ -13,6 +13,7 @@ export default function Navbar() {
     const line1 = useRef<HTMLSpanElement>(null)
     const line2 = useRef<HTMLSpanElement>(null)
     const line3 = useRef<HTMLSpanElement>(null)
+    const overlayRef = useRef<HTMLDivElement>(null)
 
     const toggleMenu = () => {
         if (!open) {
@@ -55,23 +56,44 @@ export default function Navbar() {
 
     const toggleChat = () => {
         if (!chatOpen) {
-            // Show the chat box first
+            // Show overlay first
+            gsap.set(overlayRef.current, {
+                display: "block",
+                opacity: 0
+            })
+            
+            gsap.to(overlayRef.current, {
+                opacity: 1,
+                duration: 0.4,
+                ease: "power2.out"
+            })
+
+            // Show the chat box
             gsap.set(chatRef.current, {
                 display: "flex",
                 opacity: 0,
-                y: 100, // Start 200px below final position
+                y: 100,
             })
 
-            // Animate to center
             gsap.to(chatRef.current, {
                 opacity: 1,
-                y: -90,
+                y: 0,
                 duration: 0.6,
                 ease: "power3.out",
                 overwrite: true
             })
         } else {
-            // Animate out - slide down
+            // Hide overlay
+            gsap.to(overlayRef.current, {
+                opacity: 0,
+                duration: 0.3,
+                ease: "power2.in",
+                onComplete: () => {
+                    gsap.set(overlayRef.current, { display: "none" })
+                }
+            })
+
+            // Hide chat box
             gsap.to(chatRef.current, {
                 opacity: 0,
                 y: 100,
@@ -85,11 +107,21 @@ export default function Navbar() {
         setChatOpen(!chatOpen)
     }
 
+    
+
     return (
         <>
-            {/* NAVBAR */}
+            {/* Blur Overlay - appears behind chat but above main content */}
+            <div
+                ref={overlayRef}
+                className="fixed inset-0 w-full h-full backdrop-blur-md bg-black/20 z-40"
+                style={{ display: "none" }}
+                onClick={toggleChat} // Optional: click overlay to close
+            />
+
+            {/* NAVBAR - stays above overlay */}
             <nav className="w-full flex justify-center fixed bottom-10 z-50">
-                <div className="w-fit bg-neutral-800/90 rounded-2xl px-2 py-2 flex items-center gap-2 relative">
+                <div className="w-fit bg-neutral-800/90 rounded-2xl px-2 py-2 flex items-center gap-2 relative backdrop-blur-sm">
 
                     {/* Logo */}
                     <div className="w-15 h-15 bg-black rounded-lg flex justify-center items-center text-5xl text-white">L.</div>
@@ -139,18 +171,24 @@ export default function Navbar() {
                 <button>Contact</button>
             </div>
 
-            {/* CHAT BOX - Fixed positioning */}
+            {/* CHAT BOX - Fixed positioning (highest z-index) */}
             <div
                 ref={chatRef}
-                className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-neutral-800 w-71 md:w-189 rounded-2xl shadow-2xl border border-neutral-700 overflow-hidden  flex-col z-50"
-                style={{ display: "none" }}>
+                className="fixed top-1/2 left-1/2 -translate-x-1/2 bg-neutral-800 w-71 md:w-189 rounded-2xl shadow-2xl border border-neutral-700 overflow-hidden flex-col z-60"
+                style={{
+                    display: "none",
+                    height: "clamp(400px, 80vh, 600px)",
+                    maxHeight: "calc(80vh - 80px)",
+                    top: "calc(15% - 20px)",
+                    transform: "translateX(-50%)"
+                }}>
                 {/* Chat Header */}
                 <div className="bg-neutral-800 px-4 py-3 flex justify-start items-start">
                     <button
                         onClick={toggleChat}
                         className="text-neutral-400 hover:text-white transition-colors">
                         <div className="flex gap-2">
-                            <div className="h-5 w-5 bg-lime-400 rounded-full"></div>
+                            <div className="h-5 w-5 bg-red-400 rounded-full"></div>
                             <div className="h-5 w-5 bg-gray-400 rounded-full"></div>
                             <div className="h-5 w-5 bg-gray-500 rounded-full"></div>
                         </div>
@@ -160,13 +198,15 @@ export default function Navbar() {
                 {/* Chat Messages */}
                 <div className="flex-1 p-4 md:p-6 overflow-y-auto flex flex-col gap-4 min-h-0">
                     {/* Gradient Welcome Message */}
-                   <div className="w-full h-34 bg-[url('/gradient.jpg')] bg-cover bg-center rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg pt-9">
-                        <p className="text-white text-3xl sm:text-3xl md:text-4xl font-bold drop-shadow-md">
-                            Hello!
-                        </p>
-                        <p className="text-white text-md font-medium sm:text-lg md:text-xl drop-shadow-md mt-1">
-                            How can I help you today?
-                        </p>
+                    <div className="w-full h-auto min-h-30 sm:h-70 relative bg-[url('/gradient.jpg')] bg-cover bg-center rounded-xl md:rounded-2xl shadow-lg">
+                        <div className="absolute bottom-0 left-0 p-4 md:p-6">
+                            <p className="text-white text-2xl sm:text-3xl md:text-7xl font-bold drop-shadow-md tracking-tighter">
+                                Hello!
+                            </p>
+                            <p className="text-white text-sm sm:text-base md:text-5xl font-semibold drop-shadow-md mt-1 tracking-tighter">
+                                How can I help you today?
+                            </p>
+                        </div>
                     </div>
 
                     {/* Quick Question Chips */}
@@ -178,17 +218,19 @@ export default function Navbar() {
                             What's your pricing?
                         </p>
                     </div>
+
+                    <div className="h-2"></div>
                 </div>
 
                 {/* Chat Input */}
-                <div className="border-t border-neutral-700 p-3">
+                <div className="border-t border-neutral-700 p-3 mt-auto">
                     <div className="flex gap-2">
                         <input
                             type="text"
                             placeholder="say hello..."
-                            className="flex-1 bg-neutral-800 rounded-full px-3 py-2 text-white w-20 text-sm outline-none"
+                            className="flex-1 bg-neutral-800 rounded-full px-3 py-2 text-white text-sm outline-none w-20"
                         />
-                        <button className="bg-lime-400 rounded-full px-2 py-2 text-sm font-medium text-neutral-900 hover:bg-lime-300 transition-colors">
+                        <button className="bg-lime-400 rounded-full px-2 py-2 text-sm font-medium text-neutral-900 hover:bg-lime-300 transition-colors shrink-0">
                             <SendHorizontal />
                         </button>
                     </div>

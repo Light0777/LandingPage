@@ -47,9 +47,9 @@ const HeroText = () => {
                         </div>
 
                         <div className='grid sm:flex gap-2 md:pl-2'>
-                            <img src="trends.png" alt="Hero" className="w-70 sm:w-auto rounded-2xl"/>
+                            <img src="trends.png" alt="Hero" className="w-auto rounded-2xl"/>
 
-                            <div className='flex gap-2 w-22 sm:w-fit'>
+                            <div className='flex gap-2 w-20 sm:w-fit'>
                                 <img src="insta.png" alt="Hero" className="rounded-2xl"/>
                                 <img src="x.png" alt="Hero" className="rounded-2xl"/>
                                 <img src="pin.png" alt="Hero" className="rounded-2xl"/>
