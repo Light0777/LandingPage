@@ -198,7 +198,7 @@ export default function Navbar() {
                 {/* Chat Messages */}
                 <div className="flex-1 p-4 md:p-6 overflow-y-auto flex flex-col gap-4 min-h-0">
                     {/* Gradient Welcome Message */}
-                    <div className="w-full h-auto min-h-30 sm:h-70 relative bg-[url('/gradient.jpg')] bg-cover bg-center rounded-xl md:rounded-2xl shadow-lg">
+                    <div className="w-full h-auto min-h-50 sm:h-70 relative bg-[url('/gradient.jpg')] bg-cover bg-center rounded-xl md:rounded-2xl shadow-lg">
                         <div className="absolute bottom-0 left-0 p-4 md:p-6">
                             <p className="text-white text-2xl sm:text-3xl md:text-7xl font-bold drop-shadow-md tracking-tighter">
                                 Hello!
