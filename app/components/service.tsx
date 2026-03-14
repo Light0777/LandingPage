@@ -134,17 +134,7 @@ export default function ServicesPage() {
                 </div>
 
                 {/* Contact section */}
-                <div className="mt-16 text-center">
-                    <p className="text-gray-500 dark:text-gray-400 text-sm md:text-base">
-                        Want to learn more about our services?{" "}
-                        <a
-                            href="/contact"
-                            className="text-gray-900 dark:text-white underline underline-offset-2 hover:no-underline font-medium transition-all"
-                        >
-                            Contact us
-                        </a>
-                    </p>
-                </div>
+                <div className="mt-16 text-center"></div>
             </div>
 
             {/* Bottom blur from your original CSS */}

@@ -2,11 +2,14 @@
 
 import { useState, useRef } from "react"
 import { gsap } from "gsap"
+import { Mail, SendHorizontal } from "lucide-react"
 
 export default function Navbar() {
     const [open, setOpen] = useState(false)
+    const [chatOpen, setChatOpen] = useState(false)
 
     const menuRef = useRef<HTMLDivElement>(null)
+    const chatRef = useRef<HTMLDivElement>(null)
     const line1 = useRef<HTMLSpanElement>(null)
     const line2 = useRef<HTMLSpanElement>(null)
     const line3 = useRef<HTMLSpanElement>(null)
@@ -50,6 +53,38 @@ export default function Navbar() {
         setOpen(!open)
     }
 
+    const toggleChat = () => {
+        if (!chatOpen) {
+            // Show the chat box first
+            gsap.set(chatRef.current, {
+                display: "flex",
+                opacity: 0,
+                y: 100, // Start 200px below final position
+            })
+
+            // Animate to center
+            gsap.to(chatRef.current, {
+                opacity: 1,
+                y: -90,
+                duration: 0.6,
+                ease: "power3.out",
+                overwrite: true
+            })
+        } else {
+            // Animate out - slide down
+            gsap.to(chatRef.current, {
+                opacity: 0,
+                y: 100,
+                duration: 0.5,
+                ease: "power3.in",
+                onComplete: () => {
+                    gsap.set(chatRef.current, { display: "none" })
+                }
+            })
+        }
+        setChatOpen(!chatOpen)
+    }
+
     return (
         <>
             {/* NAVBAR */}
@@ -69,7 +104,12 @@ export default function Navbar() {
 
                     {/* CTA */}
                     <div>
-                        <button className="bg-lime-400 h-15 w-32 rounded-lg relative">Contact us.</button>
+                        <button
+                            onClick={toggleChat}
+                            className="bg-lime-400 h-15 w-32 rounded-lg relative hover:bg-lime-300 transition-colors"
+                        >
+                            Contact us.
+                        </button>
                     </div>
 
                     {/* MOBILE BUTTON */}
@@ -97,6 +137,62 @@ export default function Navbar() {
                 <button>Social Media</button>
                 <button>Blog</button>
                 <button>Contact</button>
+            </div>
+
+            {/* CHAT BOX - Fixed positioning */}
+            <div
+                ref={chatRef}
+                className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-neutral-800 w-71 md:w-189 rounded-2xl shadow-2xl border border-neutral-700 overflow-hidden  flex-col z-50"
+                style={{ display: "none" }}>
+                {/* Chat Header */}
+                <div className="bg-neutral-800 px-4 py-3 flex justify-start items-start">
+                    <button
+                        onClick={toggleChat}
+                        className="text-neutral-400 hover:text-white transition-colors">
+                        <div className="flex gap-2">
+                            <div className="h-5 w-5 bg-lime-400 rounded-full"></div>
+                            <div className="h-5 w-5 bg-gray-400 rounded-full"></div>
+                            <div className="h-5 w-5 bg-gray-500 rounded-full"></div>
+                        </div>
+                    </button>
+                </div>
+
+                {/* Chat Messages */}
+                <div className="flex-1 p-4 md:p-6 overflow-y-auto flex flex-col gap-4 min-h-0">
+                    {/* Gradient Welcome Message */}
+                   <div className="w-full h-34 bg-[url('/gradient.jpg')] bg-cover bg-center rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg pt-9">
+                        <p className="text-white text-3xl sm:text-3xl md:text-4xl font-bold drop-shadow-md">
+                            Hello!
+                        </p>
+                        <p className="text-white text-md font-medium sm:text-lg md:text-xl drop-shadow-md mt-1">
+                            How can I help you today?
+                        </p>
+                    </div>
+
+                    {/* Quick Question Chips */}
+                    <div className="flex flex-col items-end gap-2 mt-2">
+                        <p className="text-white text-xs sm:text-sm font-thin drop-shadow-md border border-white/30 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 w-fit hover:bg-white/10 transition-colors cursor-pointer">
+                            What services do you offer?
+                        </p>
+                        <p className="text-white text-xs sm:text-sm font-thin drop-shadow-md border border-white/30 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 w-fit hover:bg-white/10 transition-colors cursor-pointer">
+                            What's your pricing?
+                        </p>
+                    </div>
+                </div>
+
+                {/* Chat Input */}
+                <div className="border-t border-neutral-700 p-3">
+                    <div className="flex gap-2">
+                        <input
+                            type="text"
+                            placeholder="say hello..."
+                            className="flex-1 bg-neutral-800 rounded-full px-3 py-2 text-white w-20 text-sm outline-none"
+                        />
+                        <button className="bg-lime-400 rounded-full px-2 py-2 text-sm font-medium text-neutral-900 hover:bg-lime-300 transition-colors">
+                            <SendHorizontal />
+                        </button>
+                    </div>
+                </div>
             </div>
         </>
     )
