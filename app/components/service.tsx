@@ -269,7 +269,7 @@ export default function ServicesPage() {
                         >
                             <button
                                 onClick={() => toggleFAQ(index)}
-                                className="w-full px-4 sm:px-6 py-6 text-left flex justify-between items-center gap-4 transition-all duration-200 hover:bg-gray-50/50"
+                                className="w-full px-4 sm:px-6 py-6 text-left flex justify-between items-center gap-4 transition-all duration-200"
                                 aria-expanded={openIndex === index}
                             >
                                 <span className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-semibold">
@@ -336,7 +336,7 @@ export default function ServicesPage() {
                                                                     <div
                                                                         key={`right-left-${i}`}
                                                                         className={` rounded-full p-1 ${item.borderGradient}`} >
-                                                                        <div className={`flex items-center gap-2 rounded-full pr-3 ${item.bgGradient}`}>
+                                                                        <div className={`flex items-center gap-0 rounded-full pr-3 ${item.bgGradient}`}>
                                                                             <div className="bg-[#f9f9f9] h-10 w-20 rounded-full ml-2 blur-xl absolute z-0"></div>
                                                                             <div className="marquee-icon-wrapper z-10">
                                                                                 <IconComponent
@@ -535,10 +535,10 @@ export default function ServicesPage() {
                 /* Dark mode support */
                 @media (prefers-color-scheme: dark) {
                     .marquee-fade-left {
-                        background: linear-gradient(to right, #F6F6F6, transparent);
+                        background: linear-gradient(to right, #E9E9E9, transparent);
                     }
                     .marquee-fade-right {
-                        background: linear-gradient(to left, #F6F6F6, transparent);
+                        background: linear-gradient(to left, #E9E9E9, transparent);
                     }
                 }
             `}</style>

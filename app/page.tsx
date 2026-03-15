@@ -2,6 +2,7 @@ import Image from "next/image";
 import Navbar from "./components/navbar";
 import HeroText from "./components/heroText";
 import Service from "./components/service";
+import Gallery from "./components/gallery";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
       <Navbar />
       <HeroText />
       <Service />
+      <Gallery />
     </>
   )
 }
