@@ -1,20 +1,78 @@
 // app/services/page.tsx
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { CircleSmall } from "lucide-react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+    // Web Development Icons
+    Code2,
+    Globe,
+    Box,
+    Component,
+    Cpu,
+    Layout,
+    Palette,
+    Smartphone,
+    Gauge,
+    Zap,
+    Braces,
+    FileJson,
+    Paintbrush,
+    Waves,
+    Workflow,
+    Sparkles,
+    GalleryVerticalEnd,
+    AppWindow,
+    PanelsTopLeft,
+    Puzzle,
+    BookOpen,
+    Rocket,
+    Wrench,
+    FolderTree,
+    // Mobile Icons
+    TabletSmartphone,
+    FlaskConical,
+    Apple,
+    Smartphone as AndroidIcon,
+    Timer,
+    // UI/UX Icons
+    PenTool,
+    PencilRuler,
+    Eye,
+    MousePointer,
+    // Marketing Icons
+    TrendingUp,
+    BarChart3,
+    Mail,
+    Search,
+    Target,
+    // Cloud Icons
+    Cloud,
+    Server,
+    HardDrive,
+    Network,
+    Shield,
+    Database,
+    // AI Icons
+    Brain,
+    Bot,
+    Sparkles as AiSparkles,
+    GitBranch,
+    Workflow as AiWorkflow,
+} from "lucide-react";
 
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
+interface IconItem {
+    icon: React.ElementType;
+    name: string;
+    borderGradient: string;
+    bgGradient: string;
+}
 
 interface ServiceItem {
     question: string;
     answer: {
         text: string;
-        points: string[];
+        icons: IconItem[];
     };
     image?: {
         src: string;
@@ -24,104 +82,77 @@ interface ServiceItem {
 
 export default function ServicesPage() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
-    
-    // Refs for animations
-    const pageRef = useRef<HTMLDivElement>(null);
-    const titleRef = useRef<HTMLHeadingElement>(null);
-    const serviceRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     const toggleFAQ = (index: number) => {
         setOpenIndex(openIndex === index ? null : index);
-        
-        // Animate the expanded content
-        if (openIndex !== index) {
-            const content = document.getElementById(`service-content-${index}`);
-            if (content) {
-                gsap.fromTo(content,
-                    { opacity: 0, y: 20 },
-                    { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
-                );
-            }
-        }
     };
 
-    // Initialize animations
-    useEffect(() => {
-        // Make sure everything is visible first
-        gsap.set([titleRef.current, ...serviceRefs.current.filter(Boolean)], {
-            opacity: 1,
-            y: 0
-        });
-
-        const ctx = gsap.context(() => {
-            // Fade in title from below
-            gsap.from(titleRef.current, {
-                scrollTrigger: {
-                    trigger: titleRef.current,
-                    start: "top 80%",
-                    end: "bottom 20%",
-                    toggleActions: "play none none none"
-                },
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                ease: "power2.out"
-            });
-
-            // Animate each service item on scroll
-            serviceRefs.current.forEach((ref, index) => {
-                if (!ref) return;
-                
-                gsap.from(ref, {
-                    scrollTrigger: {
-                        trigger: ref,
-                        start: "top 85%",
-                        end: "bottom 20%",
-                        toggleActions: "play none none none"
-                    },
-                    y: 60,
-                    opacity: 0,
-                    duration: 0.8,
-                    delay: index * 0.1,
-                    ease: "power2.out"
-                });
-            });
-
-        }, pageRef);
-
-        return () => ctx.revert();
-    }, []);
+    // Gradient combinations
+    const gradients = [
+        {
+            border: "bg-[linear-gradient(90deg,#0040FF_0%,#B7E5F9_100%)]",
+            bg: "bg-[linear-gradient(90deg,#3E6EFF_0%,#20BCFF_100%)]"
+        },
+        {
+            border: "bg-[linear-gradient(90deg,#FF416C_0%,#FF4B2B_100%)]",
+            bg: "bg-[linear-gradient(90deg,#FF4B2B_0%,#FF416C_100%)]"
+        },
+        {
+            border: "bg-[linear-gradient(90deg,#11998e_0%,#38ef7d_100%)]",
+            bg: "bg-[linear-gradient(90deg,#38ef7d_0%,#11998e_100%)]"
+        },
+        {
+            border: "bg-[linear-gradient(90deg,#8E2DE2_0%,#4A00E0_100%)]",
+            bg: "bg-[linear-gradient(90deg,#4A00E0_0%,#8E2DE2_100%)]"
+        },
+        {
+            border: "bg-[linear-gradient(90deg,#F2994A_0%,#F2C94C_100%)]",
+            bg: "bg-[linear-gradient(90deg,#F2C94C_0%,#F2994A_100%)]"
+        },
+        {
+            border: "bg-[linear-gradient(90deg,#56CCF2_0%,#2F80ED_100%)]",
+            bg: "bg-[linear-gradient(90deg,#2F80ED_0%,#56CCF2_100%)]"
+        },
+        {
+            border: "bg-[linear-gradient(90deg,#DD5E89_0%,#F7BB97_100%)]",
+            bg: "bg-[linear-gradient(90deg,#F7BB97_0%,#DD5E89_100%)]"
+        },
+        {
+            border: "bg-[linear-gradient(90deg,#4776E6_0%,#8E54E9_100%)]",
+            bg: "bg-[linear-gradient(90deg,#8E54E9_0%,#4776E6_100%)]"
+        }
+    ];
 
     const services: ServiceItem[] = [
         {
             question: "Web Development",
             answer: {
                 text: "We build modern, responsive websites using the latest technologies optimized for performance, SEO, and user experience.",
-                points: [
-                    "React.js",
-                    "Next.js",
-                    "Vue.js",
-                    "Nuxt.js",
-                    "Angular",
-                    "Svelte",
-                    "TypeScript",
-                    "JavaScript",
-                    "TailwindCSS",
-                    "CSS/SCSS",
-                    "HTML5",
-                    "Redux",
-                    "Zustand",
-                    "Framer",
-                    "GSAP",
-                    "Three.js",
-                    "Shadcn UI",
-                    "Material UI",
-                    "Chakra UI",
-                    "Radix UI",
-                    "Storybook",
-                    "Vite",
-                    "Webpack",
-                    "PWA"
+                icons: [
+                    { icon: Code2, name: "React.js", borderGradient: gradients[0].border, bgGradient: gradients[0].bg },
+                    { icon: Globe, name: "Next.js", borderGradient: gradients[1].border, bgGradient: gradients[1].bg },
+                    { icon: Box, name: "Vue.js", borderGradient: gradients[2].border, bgGradient: gradients[2].bg },
+                    { icon: Component, name: "Nuxt.js", borderGradient: gradients[3].border, bgGradient: gradients[3].bg },
+                    { icon: Cpu, name: "Angular", borderGradient: gradients[4].border, bgGradient: gradients[4].bg },
+                    { icon: Layout, name: "Svelte", borderGradient: gradients[5].border, bgGradient: gradients[5].bg },
+                    { icon: Braces, name: "TypeScript", borderGradient: gradients[6].border, bgGradient: gradients[6].bg },
+                    { icon: FileJson, name: "JavaScript", borderGradient: gradients[7].border, bgGradient: gradients[7].bg },
+                    { icon: Palette, name: "TailwindCSS", borderGradient: gradients[0].border, bgGradient: gradients[0].bg },
+                    { icon: Paintbrush, name: "CSS/SCSS", borderGradient: gradients[1].border, bgGradient: gradients[1].bg },
+                    { icon: Smartphone, name: "HTML5", borderGradient: gradients[2].border, bgGradient: gradients[2].bg },
+                    { icon: Workflow, name: "Redux", borderGradient: gradients[3].border, bgGradient: gradients[3].bg },
+                    { icon: Waves, name: "Zustand", borderGradient: gradients[4].border, bgGradient: gradients[4].bg },
+                    { icon: Sparkles, name: "Framer", borderGradient: gradients[5].border, bgGradient: gradients[5].bg },
+                    { icon: Zap, name: "GSAP", borderGradient: gradients[6].border, bgGradient: gradients[6].bg },
+                    { icon: GalleryVerticalEnd, name: "Three.js", borderGradient: gradients[7].border, bgGradient: gradients[7].bg },
+                    { icon: AppWindow, name: "Shadcn UI", borderGradient: gradients[0].border, bgGradient: gradients[0].bg },
+                    { icon: PanelsTopLeft, name: "Material UI", borderGradient: gradients[1].border, bgGradient: gradients[1].bg },
+                    { icon: Puzzle, name: "Chakra UI", borderGradient: gradients[2].border, bgGradient: gradients[2].bg },
+                    { icon: Layout, name: "Radix UI", borderGradient: gradients[3].border, bgGradient: gradients[3].bg },
+                    { icon: BookOpen, name: "Storybook", borderGradient: gradients[4].border, bgGradient: gradients[4].bg },
+                    { icon: Rocket, name: "Vite", borderGradient: gradients[5].border, bgGradient: gradients[5].bg },
+                    { icon: Wrench, name: "Webpack", borderGradient: gradients[6].border, bgGradient: gradients[6].bg },
+                    { icon: FolderTree, name: "PWA", borderGradient: gradients[7].border, bgGradient: gradients[7].bg }
                 ]
             },
             image: {
@@ -133,13 +164,14 @@ export default function ServicesPage() {
             question: "Mobile App Development",
             answer: {
                 text: "Native and cross-platform mobile applications for iOS and Android. We use React Native and Flutter to deliver high-quality apps with smooth performance and beautiful interfaces.",
-                points: [
-                    "React Native",
-                    "Flutter",
-                    "Swift",
-                    "Kotlin",
-                    "iOS & Android",
-                    "Expo"
+                icons: [
+                    { icon: TabletSmartphone, name: "React Native", borderGradient: gradients[0].border, bgGradient: gradients[0].bg },
+                    { icon: FlaskConical, name: "Flutter", borderGradient: gradients[1].border, bgGradient: gradients[1].bg },
+                    { icon: Apple, name: "Swift", borderGradient: gradients[2].border, bgGradient: gradients[2].bg },
+                    { icon: AndroidIcon, name: "Kotlin", borderGradient: gradients[3].border, bgGradient: gradients[3].bg },
+                    { icon: Apple, name: "iOS", borderGradient: gradients[4].border, bgGradient: gradients[4].bg },
+                    { icon: AndroidIcon, name: "Android", borderGradient: gradients[5].border, bgGradient: gradients[5].bg },
+                    { icon: Timer, name: "Expo", borderGradient: gradients[6].border, bgGradient: gradients[6].bg }
                 ]
             },
             image: {
@@ -151,13 +183,13 @@ export default function ServicesPage() {
             question: "UI/UX Design",
             answer: {
                 text: "User-centered design that focuses on creating intuitive, beautiful interfaces. We handle everything from wireframes to high-fidelity prototypes.",
-                points: [
-                    "Wireframes",
-                    "Prototypes",
-                    "User Research",
-                    "UI Design",
-                    "UX Strategy",
-                    "Design Systems"
+                icons: [
+                    { icon: PenTool, name: "Figma", borderGradient: gradients[0].border, bgGradient: gradients[0].bg },
+                    { icon: PencilRuler, name: "Sketch", borderGradient: gradients[1].border, bgGradient: gradients[1].bg },
+                    { icon: Eye, name: "Adobe XD", borderGradient: gradients[2].border, bgGradient: gradients[2].bg },
+                    { icon: MousePointer, name: "InVision", borderGradient: gradients[3].border, bgGradient: gradients[3].bg },
+                    { icon: Layout, name: "Miro", borderGradient: gradients[4].border, bgGradient: gradients[4].bg },
+                    { icon: Palette, name: "Zeplin", borderGradient: gradients[5].border, bgGradient: gradients[5].bg }
                 ]
             },
             image: {
@@ -169,13 +201,13 @@ export default function ServicesPage() {
             question: "Digital Marketing",
             answer: {
                 text: "Comprehensive digital marketing strategies including SEO, social media, and content marketing to help your business grow online.",
-                points: [
-                    "SEO",
-                    "Social Media",
-                    "Content Marketing",
-                    "Email Campaigns",
-                    "Analytics",
-                    "PPC Advertising"
+                icons: [
+                    { icon: TrendingUp, name: "Google Analytics", borderGradient: gradients[0].border, bgGradient: gradients[0].bg },
+                    { icon: Search, name: "SEMrush", borderGradient: gradients[1].border, bgGradient: gradients[1].bg },
+                    { icon: Target, name: "HubSpot", borderGradient: gradients[2].border, bgGradient: gradients[2].bg },
+                    { icon: Mail, name: "Mailchimp", borderGradient: gradients[3].border, bgGradient: gradients[3].bg },
+                    { icon: BarChart3, name: "Ahrefs", borderGradient: gradients[4].border, bgGradient: gradients[4].bg },
+                    { icon: Gauge, name: "Moz", borderGradient: gradients[5].border, bgGradient: gradients[5].bg }
                 ]
             },
             image: {
@@ -187,13 +219,13 @@ export default function ServicesPage() {
             question: "Cloud Services",
             answer: {
                 text: "Scalable cloud solutions on AWS, Google Cloud, and Azure. We help you migrate, manage, and optimize your infrastructure.",
-                points: [
-                    "AWS",
-                    "Google Cloud",
-                    "Azure",
-                    "Docker",
-                    "Kubernetes",
-                    "Cloud Migration"
+                icons: [
+                    { icon: Cloud, name: "AWS", borderGradient: gradients[0].border, bgGradient: gradients[0].bg },
+                    { icon: Globe, name: "Google Cloud", borderGradient: gradients[1].border, bgGradient: gradients[1].bg },
+                    { icon: Server, name: "Azure", borderGradient: gradients[2].border, bgGradient: gradients[2].bg },
+                    { icon: HardDrive, name: "Docker", borderGradient: gradients[3].border, bgGradient: gradients[3].bg },
+                    { icon: Network, name: "Kubernetes", borderGradient: gradients[4].border, bgGradient: gradients[4].bg },
+                    { icon: Shield, name: "Terraform", borderGradient: gradients[5].border, bgGradient: gradients[5].bg }
                 ]
             },
             image: {
@@ -205,13 +237,13 @@ export default function ServicesPage() {
             question: "AI & Machine Learning",
             answer: {
                 text: "Custom AI solutions including chatbots, recommendation engines, and predictive analytics to give your business a competitive edge.",
-                points: [
-                    "Chatbots",
-                    "Recommendation Engines",
-                    "Predictive Analytics",
-                    "OpenAI",
-                    "LangChain",
-                    "TensorFlow"
+                icons: [
+                    { icon: Bot, name: "OpenAI", borderGradient: gradients[0].border, bgGradient: gradients[0].bg },
+                    { icon: Brain, name: "TensorFlow", borderGradient: gradients[1].border, bgGradient: gradients[1].bg },
+                    { icon: GitBranch, name: "PyTorch", borderGradient: gradients[2].border, bgGradient: gradients[2].bg },
+                    { icon: AiWorkflow, name: "LangChain", borderGradient: gradients[3].border, bgGradient: gradients[3].bg },
+                    { icon: AiSparkles, name: "Hugging Face", borderGradient: gradients[4].border, bgGradient: gradients[4].bg },
+                    { icon: Database, name: "Pinecone", borderGradient: gradients[5].border, bgGradient: gradients[5].bg }
                 ]
             },
             image: {
@@ -222,13 +254,10 @@ export default function ServicesPage() {
     ];
 
     return (
-        <main ref={pageRef} className="min-h-screen relative overflow-x-hidden bg-white">
+        <main className="min-h-screen relative overflow-x-hidden">
             {/* Main content */}
             <div className="relative z-10 mx-auto px-4 py-16 md:py-24">
-                <h1 
-                    ref={titleRef}
-                    className="text-7xl md:text-8xl lg:text-9xl font-thin tracking-tighter mb-16"
-                >
+                <h1 className="text-7xl md:text-8xl lg:text-9xl font-thin tracking-tighter mb-16">
                     Services
                 </h1>
 
@@ -236,7 +265,6 @@ export default function ServicesPage() {
                     {services.map((service, index) => (
                         <div
                             key={index}
-                            ref={el => { serviceRefs.current[index] = el; }}
                             className="group border-t border-black/20"
                         >
                             <button
@@ -248,9 +276,8 @@ export default function ServicesPage() {
                                     {service.question}
                                 </span>
                                 <span
-                                    className={`transform transition-all duration-300 flex items-center justify-center ${
-                                        openIndex === index ? "rotate-180" : ""
-                                    }`}
+                                    className={`transform transition-all duration-300 flex items-center justify-center ${openIndex === index ? "-rotate-50" : ""
+                                        }`}
                                 >
                                     <img
                                         src="/arrow.png"
@@ -260,18 +287,15 @@ export default function ServicesPage() {
                                 </span>
                             </button>
 
-                            <div 
+                            <div
                                 id={`service-content-${index}`}
-                                className={`transition-all duration-500 ease-in-out ${
-                                    openIndex === index ? "max-h-500 opacity-100" : "max-h-0 opacity-0"
-                                } overflow-hidden`}
+                                className={`transition-all duration-500 ease-in-out ${openIndex === index ? "max-h-500 opacity-100" : "max-h-0 opacity-0"
+                                    } overflow-hidden`}
                             >
                                 <div className="px-4 sm:px-6 pb-6 space-y-6 md:space-y-0 md:flex md:gap-8 lg:gap-12 xl:gap-16 md:items-start">
                                     {/* Image */}
                                     {service.image && (
-                                        <div 
-                                            className="service-image relative w-full md:w-80 lg:w-96 xl:w-125 2xl:w-150 h-64 md:h-56 lg:h-64 xl:h-80 2xl:h-96 shrink-0 rounded-2xl overflow-hidden cursor-pointer"
-                                        >
+                                        <div className="service-image relative w-full md:w-80 lg:w-96 xl:w-125 2xl:w-150 h-64 md:h-56 lg:h-64 xl:h-80 2xl:h-96 shrink-0 rounded-2xl overflow-hidden cursor-pointer">
                                             <Image
                                                 src={service.image.src}
                                                 alt={service.image.alt}
@@ -283,27 +307,109 @@ export default function ServicesPage() {
                                     )}
 
                                     {/* Text */}
-                                    <div className="flex-1">
-                                        <p className="text-lg sm:text-xl md:text-2xl leading-relaxed font-medium mb-4">
+                                    <div className="flex-1 w-auto sm:w-100">
+                                        <p className="text-lg sm:text-xl md:text-4xl leading-normal font-medium mb-4">
                                             {service.answer.text}
                                         </p>
-                                        <p className="text-base sm:text-lg md:text-xl font-medium mb-3">
+                                        <p className="text-base sm:text-lg md:text-xl font-medium mb-4">
                                             Technologies we trust in:
                                         </p>
 
-                                        {/* Responsive grid for points */}
-                                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-2 sm:gap-3">
-                                            {service.answer.points.map((point, i) => (
-                                                <div 
-                                                    key={i} 
-                                                    className="flex items-start gap-2 text-sm sm:text-base md:text-lg"
-                                                >
-                                                    <span className="text-black mt-1 shrink-0">
-                                                        <CircleSmall strokeWidth={1} fill="black" size={14} />
-                                                    </span>
-                                                    <span className="font-light leading-tight">{point}</span>
-                                                </div>
-                                            ))}
+                                        {/* CSS Marquee with Fade Edges */}
+                                        <div className="marquee-container">
+                                            {/* Left Fade */}
+                                            <div className="marquee-fade-left"></div>
+
+                                            {/* Right Fade */}
+                                            <div className="marquee-fade-right"></div>
+
+                                            {/* Scrolling Content */}
+                                            <div className="marquee-content">
+                                                {service.question === "Web Development" ? (
+                                                    // Dual marquee for Web Development
+                                                    <>
+                                                        {/* First marquee - moves right to left */}
+                                                        <div className="marquee-track-right-to-left">
+                                                            {[...service.answer.icons, ...service.answer.icons].map((item, i) => {
+                                                                const IconComponent = item.icon;
+                                                                return (
+                                                                    <div
+                                                                        key={`right-left-${i}`}
+                                                                        className={` rounded-full p-1 ${item.borderGradient}`} >
+                                                                        <div className={`flex items-center gap-2 rounded-full pr-3 ${item.bgGradient}`}>
+                                                                            <div className="bg-[#f9f9f9] h-10 w-20 rounded-full ml-2 blur-xl absolute z-0"></div>
+                                                                            <div className="marquee-icon-wrapper z-10">
+                                                                                <IconComponent
+                                                                                    size={32}
+                                                                                    strokeWidth={1.5}
+                                                                                    className="text-white"
+                                                                                />
+                                                                            </div>
+                                                                            <span className=" text-white font-semibold z-10">
+                                                                                {item.name}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                        
+                                                        {/* Second marquee - moves left to right */}
+                                                        <div className="marquee-track-left-to-right">
+                                                            {[...service.answer.icons, ...service.answer.icons].map((item, i) => {
+                                                                const IconComponent = item.icon;
+                                                                return (
+                                                                    <div
+                                                                        key={`left-right-${i}`}
+                                                                        className={` rounded-full p-1 ${item.borderGradient}`}
+                                                                    >
+                                                                        <div className={`flex items-center gap-2 rounded-full pr-3 ${item.bgGradient}`}>
+                                                                            <div className="bg-[#f9f9f9] h-10 w-20 rounded-full ml-2 blur-xl absolute z-0"></div>
+                                                                            <div className="marquee-icon-wrapper z-10">
+                                                                                <IconComponent
+                                                                                    size={32}
+                                                                                    strokeWidth={1.5}
+                                                                                    className="text-white"
+                                                                                />
+                                                                            </div>
+                                                                            <span className="marquee-item-label text-white font-semibold z-10">
+                                                                                {item.name}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    // Single marquee for other services
+                                                    <div className="marquee-track">
+                                                        {[...service.answer.icons, ...service.answer.icons].map((item, i) => {
+                                                            const IconComponent = item.icon;
+                                                            return (
+                                                                <div
+                                                                    key={i}
+                                                                    className={` rounded-full p-1 ${item.borderGradient}`}
+                                                                >
+                                                                    <div className={`flex items-center gap-2 rounded-full pr-3 ${item.bgGradient}`}>
+                                                                        <div className="bg-[#f9f9f9] h-10 w-20 rounded-full ml-2 blur-xl absolute z-0"></div>
+                                                                        <div className="marquee-icon-wrapper z-10">
+                                                                            <IconComponent
+                                                                                size={32}
+                                                                                strokeWidth={1.5}
+                                                                                className="text-white"
+                                                                            />
+                                                                        </div>
+                                                                        <span className="marquee-item-label text-white font-semibold z-10">
+                                                                            {item.name}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -334,6 +440,108 @@ export default function ServicesPage() {
                     }}
                 />
             </div>
+
+            {/* Add CSS for marquee */}
+            <style jsx>{`
+                .marquee-container {
+                    position: relative;
+                    width: 100%;
+                    overflow: hidden;
+                    padding: 1rem 0;
+                }
+
+                .marquee-fade-left {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    width: 80px;
+                    background: linear-gradient(to right, white, transparent);
+                    z-index: 10;
+                    pointer-events: none;
+                }
+
+                .marquee-fade-right {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    width: 80px;
+                    background: linear-gradient(to left, white, transparent);
+                    z-index: 10;
+                    pointer-events: none;
+                }
+
+                .marquee-content {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+
+                .marquee-track {
+                    display: flex;
+                    gap: 1.5rem;
+                    animation: marqueeRightToLeft 30s linear infinite;
+                    min-width: 200%;
+                }
+
+                .marquee-track-right-to-left {
+                    display: flex;
+                    gap: 1.5rem;
+                    animation: marqueeRightToLeft 35s linear infinite;
+                    min-width: 200%;
+                }
+
+                .marquee-track-left-to-right {
+                    display: flex;
+                    gap: 1.5rem;
+                    animation: marqueeLeftToRight 35s linear infinite;
+                    min-width: 200%;
+                }
+
+                .marquee-icon-wrapper {
+                    width: 56px;
+                    height: 56px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 12px;
+                }
+
+                .marquee-item-label {
+                    text-align: center;
+                }
+
+                @keyframes marqueeRightToLeft {
+                    0% {
+                        transform: translateX(0);
+                    }
+                    100% {
+                        transform: translateX(-50%);
+                    }
+                }
+
+                @keyframes marqueeLeftToRight {
+                    0% {
+                        transform: translateX(-50%);
+                    }
+                    100% {
+                        transform: translateX(0);
+                    }
+                }
+
+                /* Dark mode support */
+                @media (prefers-color-scheme: dark) {
+                    .marquee-fade-left {
+                        background: linear-gradient(to right, #F6F6F6, transparent);
+                    }
+                    .marquee-fade-right {
+                        background: linear-gradient(to left, #F6F6F6, transparent);
+                    }
+                }
+            `}</style>
         </main>
     );
 }
