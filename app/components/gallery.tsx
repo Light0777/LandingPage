@@ -59,7 +59,7 @@ const Gallery = () => {
         {images.map((image) => (
           <div
             key={image.id}
-            className='break-inside-avoid group relative overflow-hidden rounded-2xl'
+            className='break-inside-avoid group relative overflow-hidden rounded-2xl cursor-pointer'
           >
             <img
               src={image.src}
