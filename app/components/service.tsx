@@ -256,7 +256,7 @@ export default function ServicesPage() {
     return (
         <main className="min-h-screen relative overflow-x-hidden">
             {/* Main content */}
-            <div className="relative z-10 mx-auto px-4 py-16 md:py-24">
+            <div className="relative z-10 mx-auto px-4 py-1 md:py-24">
                 <h1 className="text-7xl md:text-8xl lg:text-9xl font-thin tracking-tighter mb-16">
                     Services
                 </h1>

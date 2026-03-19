@@ -4,6 +4,7 @@ import HeroText from "./components/heroText";
 import Service from "./components/service";
 import Gallery from "./components/gallery";
 import About from "./components/about";
+import Uielements from "./components/uielements";
 
 export default function Home() {
   return (
@@ -11,8 +12,9 @@ export default function Home() {
       <Navbar />
       <HeroText />
       <Service />
-      <Gallery />
       <About />
+      <Gallery />
+      <Uielements />
     </>
   )
 }
