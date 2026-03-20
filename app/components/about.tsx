@@ -15,9 +15,9 @@ const About = () => {
     }
 
     return (
-        <div className='sm:h-screen flex items-center justify-center p-4' onMouseMove={handleMouseMove}>
+        <div id='About' className='sm:h-screen flex items-center justify-center p-4' onMouseMove={handleMouseMove}>
             <div>
-                <h1 className='text-2xl md:text-4xl xl:text-6xl text-left font-semibold sm:text-center p-2 sm:p-10 leading-normal'>
+                <h1 className='text-2xl md:text-4xl xl:text-5xl 2xl:text-6xl text-left font-semibold sm:text-center p-2 sm:p-10 leading-normal'>
                     We help brands grow through{' '}
                     <span className='border border-amber-200 rounded-full px-3 bg-amber-300 text-amber-500'>smart marketing</span>
                     <div

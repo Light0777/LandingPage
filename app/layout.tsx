@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { Satisfy } from 'next/font/google';
+import SmoothScroll from './components/SmoothScroll'
 import "./globals.css";
 
 const satisfy = Satisfy({
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} ${satisfy.variable}`}>
+        <SmoothScroll />
         {children}
       </body>
     </html>

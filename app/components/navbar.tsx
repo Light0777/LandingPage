@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import { gsap } from "gsap"
 import { SendHorizontal } from "lucide-react"
+import Link from "next/link"
 
 export default function Navbar() {
     const [open, setOpen] = useState(false)
@@ -54,6 +55,43 @@ export default function Navbar() {
         setOpen(!open)
     }
 
+    // NEW: Function to handle navigation and close menu
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        e.preventDefault()
+        
+        // Close the menu first
+        if (open) {
+            gsap.to(menuRef.current, {
+                y: "100%",
+                duration: 0.4,
+                ease: "power3.in",
+                onComplete: () => {
+                    setOpen(false)
+                    // Reset hamburger icon
+                    gsap.to([line1.current, line3.current], {
+                        rotate: 0,
+                        y: 0,
+                        duration: 0.2
+                    })
+                    
+                    // Navigate after menu closes
+                    const targetId = href.replace('#', '')
+                    const element = document.getElementById(targetId)
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' })
+                    }
+                }
+            })
+        } else {
+            // If menu is not open, just navigate
+            const targetId = href.replace('#', '')
+            const element = document.getElementById(targetId)
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' })
+            }
+        }
+    }
+
     const toggleChat = () => {
         if (!chatOpen) {
             // Show overlay first
@@ -61,7 +99,7 @@ export default function Navbar() {
                 display: "block",
                 opacity: 0
             })
-            
+
             gsap.to(overlayRef.current, {
                 opacity: 1,
                 duration: 0.4,
@@ -107,7 +145,7 @@ export default function Navbar() {
         setChatOpen(!chatOpen)
     }
 
-    
+
 
     return (
         <>
@@ -128,10 +166,18 @@ export default function Navbar() {
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center gap-2">
-                        <button className="bg-neutral-500 h-15 w-32 rounded-lg text-xl text-white font-thin">Home</button>
-                        <button className="bg-neutral-500 h-15 w-32 rounded-lg text-xl text-white font-thin">About</button>
-                        <button className="bg-neutral-500 h-15 w-32 rounded-lg text-xl text-white font-thin">Projects</button>
-                        <button className="bg-neutral-500 h-15 w-32 rounded-lg text-xl text-white font-thin">Contact</button>
+                        <button className="bg-neutral-500 h-15 w-32 rounded-lg text-xl text-white font-thin">
+                            <Link href={"#Home"} onClick={(e) => handleNavClick(e, "#Home")}>Home</Link>
+                        </button>
+                        <button className="bg-neutral-500 h-15 w-32 rounded-lg text-xl text-white font-thin">
+                            <Link href={"#Service"} onClick={(e) => handleNavClick(e, "#Service")}>Services</Link>
+                        </button>
+                        <button className="bg-neutral-500 h-15 w-32 rounded-lg text-xl text-white font-thin">
+                            <Link href={"#About"} onClick={(e) => handleNavClick(e, "#About")}>About</Link>
+                        </button>
+                        <button className="bg-neutral-500 h-15 w-32 rounded-lg text-xl text-white font-thin">
+                            <Link href={"#Gallery"} onClick={(e) => handleNavClick(e, "#Gallery")}>Gallery</Link>
+                        </button>
                     </div>
 
                     {/* CTA */}
@@ -156,19 +202,75 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            {/* FULLSCREEN MOBILE MENU */}
+            {/* FULLSCREEN MOBILE MENU - UPDATED WITH CLICK HANDLERS */}
             <div
                 ref={menuRef}
                 className="fixed top-0 left-0 w-full h-screen bg-neutral-900 flex flex-col items-start p-12 justify-start gap-5 tracking-tight text-white text-3xl font-medium translate-y-full z-40"
             >
-                <button>Home</button>
-                <button>About</button>
-                <button>Projects</button>
-                <button>Clients</button>
-                <button>News</button>
-                <button>Social Media</button>
-                <button>Blog</button>
-                <button>Contact</button>
+                <button>
+                    <Link 
+                        href={"#Home"} 
+                        onClick={(e) => handleNavClick(e, "#Home")}
+                    >
+                        Home
+                    </Link>
+                </button>
+                <button>
+                    <Link 
+                        href={"#About"} 
+                        onClick={(e) => handleNavClick(e, "#About")}
+                    >
+                        About
+                    </Link>
+                </button>
+                <button>
+                    <Link 
+                        href={"#Gallery"} 
+                        onClick={(e) => handleNavClick(e, "#Gallery")}
+                    >
+                        Gallery
+                    </Link>
+                </button>
+                <button>
+                    <Link 
+                        href={"#Clients"} 
+                        onClick={(e) => handleNavClick(e, "#Clients")}
+                    >
+                        Clients
+                    </Link>
+                </button>
+                <button>
+                    <Link 
+                        href={"#News"} 
+                        onClick={(e) => handleNavClick(e, "#News")}
+                    >
+                        News
+                    </Link>
+                </button>
+                <button>
+                    <Link 
+                        href={"#Social"} 
+                        onClick={(e) => handleNavClick(e, "#Social")}
+                    >
+                        Social
+                    </Link>
+                </button>
+                <button>
+                    <Link 
+                        href={"#Blog"} 
+                        onClick={(e) => handleNavClick(e, "#Blog")}
+                    >
+                        Blog
+                    </Link>
+                </button>
+                <button>
+                    <Link 
+                        href={"#Footer"} 
+                        onClick={(e) => handleNavClick(e, "#Footer")}
+                    >
+                        Contact
+                    </Link>
+                </button>
             </div>
 
             {/* CHAT BOX - Fixed positioning (highest z-index) */}

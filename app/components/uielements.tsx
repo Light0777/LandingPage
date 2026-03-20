@@ -117,7 +117,7 @@ const UIElements = () => {
   }, []);
 
   return (
-    <div className="sm:h-screen grid items-center justify-center overflow-hidden">
+    <div id='Ui' className="sm:h-screen grid items-center justify-center overflow-hidden">
       {/* Main container: flex row with fixed typography and scrollable center */}
       <div className="flex gap-1 sm:gap-3 text-base md:text-7xl text-left font-semibold p-6 sm:p-10 leading-tight sm:leading-normal items-center max-w-full overflow-hidden relative">
         {/* Fixed left part - responsive text */}

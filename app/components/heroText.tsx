@@ -118,7 +118,7 @@ const HeroText = () => {
     }, [])
 
     return (
-        <div>
+        <div id="Home">
 
             {/* TEXT */}
             <div className='w-full h-150 flex items-center justify-center'>

@@ -47,7 +47,7 @@ const Gallery = () => {
   ];
 
   return (
-    <div className='p-5 sm:p-10'>
+    <div id='Gallery' className='p-5 sm:p-10'>
       <div className='mb-10'>
         <h1 className='text-end text-2xl sm:text-5xl font-thin tracking-tighter'>
           Gallery of our projects
