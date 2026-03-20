@@ -159,7 +159,6 @@ const UIElements = () => {
           }
         }
       `}</style>
-      <div className='h-30 block sm:hidden w-full'></div>
     </div>
   );
 };
